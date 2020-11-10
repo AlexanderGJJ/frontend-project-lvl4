@@ -16,3 +16,5 @@ $ make install
 $ make start
 # open http://localhost:5000
 ```
+
+<a href="https://fast-stream-70082.herokuapp.com/">Slack</a>
