@@ -4,11 +4,11 @@ import { combineReducers, createReducer } from '@reduxjs/toolkit';
 import * as action from '../actions';
 
 const initState = {
-  channelsColl: [...gon.channels],
+  channels: [...gon.channels],
   currentChannelId: gon.currentChannelId,
 };
 
-const channels = (state = initState) => state;
+const channelsColl = (state = initState) => state;
 
 const messages = (state = []) => state;
 
@@ -17,7 +17,7 @@ const message = createReducer('', {
 });
 
 export default combineReducers({
-  channels,
+  channelsColl,
   messages,
   message,
 });

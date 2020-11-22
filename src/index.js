@@ -1,3 +1,3 @@
-import runApp from './init';
+import initApp from './init';
 
-runApp();
+initApp();

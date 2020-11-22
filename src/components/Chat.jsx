@@ -1,15 +1,22 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Form from './Form.jsx';
+import userData from './UserContext.jsx';
 
-const Chat = () => <div className="col h-100">
+function Chat() {
+  const { userContext } = userData;
+  const userName = useContext(userContext);
+  return (
+    <div className="col h-100">
       <div className="d-flex flex-column h-100">
         <div id="messages-box" className="chat-messages overflow-auto mb-3">
-          <div><b>Athena.Koch34</b>: sasa</div>
+          <div><b>{ userName }</b>: sasa</div>
         </div>
         <div className="mt-auto">
-          <Form />
+          <Form/>
         </div>
       </div>
-    </div>;
+    </div>
+  );
+}
 
 export default Chat;

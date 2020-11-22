@@ -4,9 +4,9 @@ import _ from 'lodash';
 import cn from 'classnames';
 
 const mapStateToProps = (state) => {
-  const { channels: { channelsColl, currentChannelId } } = state;
+  const { channelsColl: { channels, currentChannelId } } = state;
   return {
-    channelsColl,
+    channels,
     currentChannelId,
   };
 };
@@ -23,13 +23,13 @@ class Panel extends React.Component {
   });
 
   render() {
-    const { channelsColl } = this.props;
+    const { channels } = this.props;
     return <div className="col-3 border-right">
               <div className="d-flex mb-2"><span>Channels</span>
                 <button type="button" className="ml-auto p-0 btn btn-link">+</button>
               </div>
               <ul className="nav flex-column nav-pills nav-fill">
-                {this.renderList(channelsColl)}
+                {this.renderList(channels)}
               </ul>
            </div>;
   }
