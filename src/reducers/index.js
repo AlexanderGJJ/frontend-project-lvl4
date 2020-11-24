@@ -10,14 +10,13 @@ const initState = {
 
 const channelsColl = (state = initState) => state;
 
-const messages = (state = []) => state;
-
-const message = createReducer('', {
-  [action.updateMessage]: (state, { payload: { textMessage } }) => textMessage,
+const messages = createReducer([], {
+  [action.sendMessage]: (state = [], { payload: { message } }) => {
+    console.log(message);
+  },
 });
 
 export default combineReducers({
   channelsColl,
   messages,
-  message,
 });
