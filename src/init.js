@@ -10,9 +10,10 @@ import '../assets/application.scss';
 import io from 'socket.io-client';
 import App from './components/App.jsx';
 import rootReducer from './reducers';
-import userData from './components/UserContext.jsx';
+import userData from './context/UserContext.jsx';
+import { sendMessage, initMessages } from './actions';
 
-const initApp = () => {
+const initApp = ({ channels, currentChannelId, messages }) => {
   if (process.env.NODE_ENV !== 'production') {
     localStorage.debug = 'chat:*';
   }
@@ -21,6 +22,14 @@ const initApp = () => {
   const store = configureStore({
     reducer: rootReducer,
   });
+  const { dispatch } = store;
+  const socket = io();
+  socket.on('newMessage', (socketMessage) => {
+    const message = socketMessage.data.attributes;
+    dispatch(sendMessage({ message }));
+  });
+
+  dispatch(initMessages({ messages }));
 
   ReactDOM.render(
       <Provider store={store}>

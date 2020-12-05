@@ -10,13 +10,25 @@ const initState = {
 
 const channelsColl = (state = initState) => state;
 
-const messages = createReducer([], {
-  [action.sendMessage]: (state = [], { payload: { message } }) => {
-    console.log(message);
+const messagesColl = createReducer({ byId: {}, allIds: [] }, {
+  [action.initMessages]: (state, { payload: { messages } }) => {
+    const idColl = {};
+    const allIds = messages.map(({ id }) => id);
+    messages.forEach((message) => {
+      idColl[message.id] = message;
+    });
+    return { byId: idColl, allIds };
+  },
+  [action.sendMessage]: (state, { payload: { message } }) => {
+    const { byId, allIds } = state;
+    return {
+      byId: { ...byId, [message.id]: message },
+      allIds: [...allIds, message.id],
+    };
   },
 });
 
 export default combineReducers({
   channelsColl,
-  messages,
+  messagesColl,
 });

@@ -3,10 +3,9 @@ import { connect } from 'react-redux';
 import Form from './Form.jsx';
 
 const mapStateToProps = (state) => {
-  const { messages } = state;
-  return {
-    messages,
-  };
+  const { messagesColl: { byId, allIds } } = state;
+  const messages = allIds.map((id) => byId[id]);
+  return { messages };
 };
 
 class Chat extends React.Component {
@@ -16,7 +15,8 @@ class Chat extends React.Component {
         <div className="col h-100">
           <div className="d-flex flex-column h-100">
             <div id="messages-box" className="chat-messages overflow-auto mb-3">
-              <div><b>{ 'userName' }</b>: sasa</div>
+            {messages.map(({ textMessage, user, id }) => (
+              (<div key={id}><b>{user}</b>: {textMessage}</div>)))}
             </div>
             <div className="mt-auto">
               <Form/>

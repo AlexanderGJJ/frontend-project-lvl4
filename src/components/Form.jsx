@@ -1,38 +1,38 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import { Formik } from 'formik';
-import userData from './UserContext.jsx';
-import * as actions from '../actions';
-
-const mapStateToProps = (state) => {
-  const { channelsColl: { currentChannelId } } = state;
-  return {
-    currentChannelId,
-  };
-};
-
-const actionCreators = {
-  addMessage: actions.addMessage,
-};
+import axios from 'axios';
+import userData from '../context/UserContext.jsx';
+import routes from '../routes';
 
 class Form extends React.Component {
+  constructor() {
+    super();
+    this.inputRef = React.createRef();
+  }
+
   static contextType = userData.userContext;
 
   handleSubmit = (values, { setSubmitting, resetForm }) => {
-    setTimeout(() => {
-      const { addMessage } = this.props;
-      addMessage({ values });
+    const submitForm = async () => {
+      const { textMessage, user } = values;
+      await axios.post(routes.channelMessagesPath(values.channelId),
+        { data: { attributes: { textMessage, user } } });
       setSubmitting(false);
       resetForm();
-    }, 200);
+      this.inputRef.current.focus();
+    };
+    try {
+      submitForm();
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   render() {
-    const { currentChannelId } = this.props;
     const userName = this.context;
     return (
         <Formik
-            initialValues={{ textMessage: '', channelId: currentChannelId, user: userName }}
+            initialValues={{ textMessage: '', user: userName }}
             onSubmit={this.handleSubmit}
         >
           {({
@@ -45,6 +45,7 @@ class Form extends React.Component {
                 <div className="form-group">
                   <div className="input-group">
                     <input
+                        ref={this.inputRef}
                         name="textMessage"
                         aria-label="body"
                         className="mr-2 form-control"
@@ -69,4 +70,4 @@ class Form extends React.Component {
   }
 }
 
-export default connect(mapStateToProps, actionCreators)(Form);
+export default Form;
