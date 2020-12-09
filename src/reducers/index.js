@@ -1,14 +1,12 @@
-// eslint-disable-next-line import/no-unresolved
-import gon from 'gon';
 import { combineReducers, createReducer } from '@reduxjs/toolkit';
 import * as action from '../actions';
 
-const initState = {
-  channels: [...gon.channels],
-  currentChannelId: gon.currentChannelId,
-};
-
-const channelsColl = (state = initState) => state;
+const channelsColl = createReducer({ channels: [], currentChannelId: null }, {
+  [action.initChannels]: (state, { payload: { channels, currentChannelId } }) => ({
+    channels,
+    currentChannelId,
+  }),
+});
 
 const messagesColl = createReducer({ byId: {}, allIds: [] }, {
   [action.initMessages]: (state, { payload: { messages } }) => {

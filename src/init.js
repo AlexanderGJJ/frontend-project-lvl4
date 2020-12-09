@@ -11,7 +11,7 @@ import io from 'socket.io-client';
 import App from './components/App.jsx';
 import rootReducer from './reducers';
 import userData from './context/UserContext.jsx';
-import { sendMessage, initMessages } from './actions';
+import { sendMessage, initMessages, initChannels } from './actions';
 
 const initApp = ({ channels, currentChannelId, messages }) => {
   if (process.env.NODE_ENV !== 'production') {
@@ -30,6 +30,7 @@ const initApp = ({ channels, currentChannelId, messages }) => {
   });
 
   dispatch(initMessages({ messages }));
+  dispatch(initChannels({ channels, currentChannelId }));
 
   ReactDOM.render(
       <Provider store={store}>
